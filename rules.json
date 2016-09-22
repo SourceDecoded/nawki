@@ -1,0 +1,10 @@
+{
+  "Move":{
+    "allow-overreach":false,
+    "momentum":false
+  },
+  "Life":{
+    "min-energy":0,
+    "min-mass":10
+  }
+}
