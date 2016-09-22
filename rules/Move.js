@@ -2,6 +2,21 @@
 // permits organizations to move around the environment
 
 class Move {
+
+  self.config = {
+    "allow-overreach": true,
+    "momentum": true,
+    "friction": 2
+  };
+
+  constructor(config) {
+    Object.keys.forEach(function(key){
+      if (config.hasOwnProperty(key)) {
+        self.config[key] = config[key];
+      }
+    });
+  }
+
   describe() {
     return {
       "overview":"Allows entities to move around in the world.",
@@ -22,7 +37,7 @@ class Move {
       "mutates": {
         "energy":{
           "type":"number",
-          "description":"Energy will be decremented according to distance traveled. If more distance was requested than energy available, distance traveled will be as far as energy permits."
+          "description":"Energy will be decremented according to distance traveled. If more distance was requested than energy available and allow-overreach = true, distance traveled will be as far as energy permits. If allow-overreach = false, no movement happens."
         },
         "pos-X": {
           "type":"number",
@@ -34,7 +49,14 @@ class Move {
         }
       },
       "adds": {
-
+        "pos-X-from": {
+          "type":"number",
+          "description":"Entity's X position before moving"
+        },
+        "pos-Y-from": {
+          "type":"number",
+          "description":"Entity's Y position before moving"
+        }
       }
     };
   }
@@ -42,4 +64,12 @@ class Move {
   updateAsync(entity) {
 
   }
+
+  entityAdded(entity) {
+
+  }
+
+  entity
+
+
 }
