@@ -1,5 +1,5 @@
 // Move.js
-// permits organizations to move around the environment
+// permits entities to move around the environment
 
 class Move {
 
@@ -15,7 +15,7 @@ class Move {
 
     Object.keys(this.config).forEach(function(key){
       if (config.hasOwnProperty(key)) {
-        self.config[key] = config[key];
+        this.config[key] = config[key];
       }
     });
 
@@ -51,11 +51,20 @@ class Move {
     };
   }
 
-  updateAsync(entity) {
+  activateAsync(world) {
+    this._world = world;
+    return Promise.resolve(undefined);
+  }
 
+  updateAsync() {
+    return Promise.resolve(undefined);
   }
 
   entityAdded(entity) {
+
+  }
+
+  entityRemoved(entity) {
 
   }
 
