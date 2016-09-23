@@ -1,18 +1,21 @@
 // Move.js
-// permits organizations to move around the environment
+// permits entities to move around the environment
 
 class Move {
 
-  self.config = {
-    "allow-overreach": true,
-    "momentum": true,
-    "friction": 2
-  };
-
   constructor(config) {
+    this._world = null;
+    this._entities = [];
+
+    this._config = {
+      "allow-overreach": true,
+      "momentum": true,
+      "friction": 2
+    };
+
     Object.keys.forEach(function(key){
       if (config.hasOwnProperty(key)) {
-        self.config[key] = config[key];
+        this._config[key] = config[key];
       }
     });
   }
@@ -61,15 +64,22 @@ class Move {
     };
   }
 
-  updateAsync(entity) {
+  activateAsync(world) {
+    this._world = world;
+    return Promise.resolve(undefined);
+  }
 
+  updateAsync() {
+    return Promise.resolve(undefined);
   }
 
   entityAdded(entity) {
 
   }
 
-  entity
+  entityRemoved(entity) {
+
+  }
 
 
 }

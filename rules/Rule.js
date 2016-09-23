@@ -1,10 +1,10 @@
 'use strict';
-class Life {
-  // Determines what counts as "alive".
+class Rule {
+  // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
     this._world = null;
-    this._entities = null;
+    this._entities = [];
     // default config values
     this._config = {};
 
