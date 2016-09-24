@@ -23,6 +23,8 @@ class Move {
 
   describe() {
     return {
+      "name":"Move",
+      "version":"0.0.1",
       "overview":"Allows entities to move around in the world by applying force.",
       "reads":{
         "energy":{

@@ -1,5 +1,5 @@
 'use strict';
-class Rule {
+class TransmitStates {
   // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
@@ -19,9 +19,9 @@ class Rule {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"Rule",
+      "name":"TransmitStates",
       "version":"0.0.1",
-      "overview":"A blank rule template",
+      "overview":"A special rule that transmits updated states to entities",
       "reads":{},
       "mutates":{},
       "adds":{}
@@ -46,6 +46,7 @@ class Rule {
   }
 
   // Called when an entity is removed from the world.
+  // entity.remove() has been called by this point
   entityRemoved(entity){
 
   }
@@ -53,6 +54,9 @@ class Rule {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
+    this._world.entityStates.forEach(function(entity, state){
+      entity.sendState({'state':state});
+    });
     return Promise.resolve(undefined);
   }
 

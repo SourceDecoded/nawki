@@ -1,12 +1,16 @@
-// Start us a new nawki server
+// Start us a fresh new Nawki server
 var app = require('express')();
+var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var nawki = require('./lib/Nawki')(io);
+var nawki = new require('./lib/Nawki')();
+var socketIOConnection = new require('./lib/SocketIOConnection')(io);
 var rules = require('./rules.json');
 
 // Nawki stuff
-nawki.addRules(rules);
+nawki.addRulesLocation(path.resolve('rules'));
+nawki.loadRules(rules);
+nawki.addNetworkConnection(socketIOConnection);
 
 // web stuff
 app.static('web');

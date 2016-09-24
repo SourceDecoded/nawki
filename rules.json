@@ -1,4 +1,5 @@
 {
+  "GatherStates":{},
   "FiniteWorld":{
     "size":[
       {"min":-10000,"max":10000},
@@ -9,8 +10,5 @@
     "allow-overreach":false,
     "momentum":false
   },
-  "Life":{
-    "min-energy":0,
-    "min-mass":10
-  }
+  "TransmitStates":{}
 }
