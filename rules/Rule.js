@@ -46,6 +46,7 @@ class Rule {
   }
 
   // Called when an entity is removed from the world.
+  // entity.remove() has been called by this point
   entityRemoved(entity){
 
   }
