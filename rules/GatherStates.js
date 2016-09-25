@@ -1,3 +1,4 @@
+'use strict';
 class GatherStates {
   // A special rule which collects and state updates from organisims and attaches
   // them to the world
@@ -6,12 +7,12 @@ class GatherStates {
     this._world = null;
     this._entities = new Map();
     // default config values
-    this._config = {};
+    this.config = {};
 
     // merge provided config values with defaults
-    Object.keys.forEach(function(key){
+    Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
-        this._config[key] = config[key];
+        this.config[key] = config[key];
       }
     });
   }
@@ -56,9 +57,11 @@ class GatherStates {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._entities.forEach(entity, state){
+    this._entities.forEach((entity, state) => {
       this._world.entityStates.set(entity, state);
-    };
+    });
     return Promise.resolve(undefined);
   }
 }
+
+module.exports = GatherStates;

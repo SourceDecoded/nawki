@@ -6,10 +6,10 @@ class Life {
     this._world = null;
     this._entities = null;
     // default config values
-    this._config = {};
+    this.config = {};
 
     // merge provided config values with defaults
-    Object.keys.forEach(function(key){
+    Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
         this._config[key] = config[key];
       }

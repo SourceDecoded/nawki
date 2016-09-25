@@ -1,3 +1,4 @@
+'use strict';
 // Move.js
 // permits entities to move around the environment
 
@@ -13,7 +14,7 @@ class Move {
       "friction": 2
     };
 
-    Object.keys(this.config).forEach(function(key){
+    Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
         this.config[key] = config[key];
       }
@@ -58,6 +59,10 @@ class Move {
     return Promise.resolve(undefined);
   }
 
+  deactivate() {
+
+  }
+
   updateAsync() {
     return Promise.resolve(undefined);
   }
@@ -71,3 +76,5 @@ class Move {
   }
 
 }
+
+module.exports = Move;

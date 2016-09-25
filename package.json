@@ -11,5 +11,9 @@
   "README": "README.md",
   "scripts": {
     "start": "node server.js"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "node": true
   }
 }
