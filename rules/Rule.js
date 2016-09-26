@@ -24,7 +24,8 @@ class Rule {
       "overview":"A blank rule template",
       "reads":{},
       "mutates":{},
-      "adds":{}
+      "adds":{},
+      "config":this.config
     };
   }
 

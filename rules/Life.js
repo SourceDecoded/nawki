@@ -6,7 +6,10 @@ class Life {
     this._world = null;
     this._entities = null;
     // default config values
-    this.config = {};
+    this.config = {
+      "min-mass":0,
+      "min-energy":0
+    };
 
     // merge provided config values with defaults
     Object.keys(this.config).forEach((key) => {
@@ -18,7 +21,15 @@ class Life {
 
   // describe what this rule does with the world or entities
   describe(){
-    return {};
+    return {
+      "name":"Life",
+      "version":"0.0.1",
+      "overview":"Decides what counts as 'alive'",
+      "reads":"",
+      "mutates":"",
+      "adds":"",
+      "config":this.config
+    };
   }
 
   // Called when the rule is added to the world.

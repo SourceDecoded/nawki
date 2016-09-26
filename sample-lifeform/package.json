@@ -1,0 +1,10 @@
+{
+  "name": "nawki-sample-lifeform",
+  "description": "A sample Nawki lifeform",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "README": "README.md",
+  "dependencies": {
+    "socket.io-client": "^1.4.8"
+  }
+}

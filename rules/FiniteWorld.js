@@ -22,7 +22,8 @@ class FiniteWorld {
       "overview":"A 2d world of limited size",
       "reads":{},
       "mutates":{},
-      "adds":{}
+      "adds":{},
+      "config":this.config
     };
   }
 

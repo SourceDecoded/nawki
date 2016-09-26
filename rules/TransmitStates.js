@@ -21,10 +21,7 @@ class TransmitStates {
     return {
       "name":"TransmitStates",
       "version":"0.0.1",
-      "overview":"A special rule that transmits updated states to entities",
-      "reads":{},
-      "mutates":{},
-      "adds":{}
+      "overview":"A special rule that transmits updated states to entities"
     };
   }
 
