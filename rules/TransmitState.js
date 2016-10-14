@@ -58,7 +58,7 @@ class TransmitState {
       return typeof e.transmitStateAsync === "function";
     });
 
-    return activeEntities.reduce(function(entity){
+    return activeEntities.reduce((promise, entity) => {
       var transmissableState = {};
       Object.keys(entity.properties).forEach(function(key){
         if (entity.properties[key].length > 1) {
@@ -74,7 +74,7 @@ class TransmitState {
           }
         }
       });
-      return entity.transmitStateAsync(transmissableState);
+      return promise.then((entity) => {entity.transmitStateAsync(transmissableState);});
     }, Promise.resolve(undefined));
   }
 
