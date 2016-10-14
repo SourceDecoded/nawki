@@ -27,8 +27,8 @@ class Move {
       "name":"Move",
       "version":"0.0.1",
       "overview":"Allows entities to move around in the world by applying force.",
-      "reads":"pos[0], pos[1], move[0], move[1], energy",
-      "mutates":"pos[0], pos[1], energy",
+      "reads":"position.coords[0], position.coords[1], health.energy, request.move.coords[0], request.move.coords[1]",
+      "mutates":"position.coords[0], position.coords[1], health.energy",
       "config":this.config
     };
   }

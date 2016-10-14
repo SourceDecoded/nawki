@@ -22,9 +22,9 @@ class Rule {
       "name":"Rule",
       "version":"0.0.1",
       "overview":"A blank rule template",
-      "reads":{},
-      "mutates":{},
-      "adds":{},
+      "reads":"",
+      "mutates":"",
+      "adds":"",
       "config":this.config
     };
   }

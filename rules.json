@@ -1,5 +1,4 @@
 {
-  "GatherStates":{},
   "FiniteWorld":{
     "size":[
       {"min":-10000,"max":10000},
@@ -10,5 +9,6 @@
     "allow-overreach":false,
     "momentum":false
   },
-  "TransmitStates":{}
+  "CleanRequests":{},
+  "TransmitState":{}
 }
