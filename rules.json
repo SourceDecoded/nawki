@@ -1,13 +1,10 @@
 {
+  "Move":{},
   "FiniteWorld":{
     "size":[
       {"min":-10000,"max":10000},
       {"min":-10000,"max":10000}
     ]
-  },
-  "Move":{
-    "allow-overreach":false,
-    "momentum":false
   },
   "CleanRequests":{},
   "TransmitState":{}

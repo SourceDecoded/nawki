@@ -47,7 +47,12 @@ class FiniteWorld {
   // Called when a new entity is added to the world.
   entityAdded(entity){
     var position = entity.getProperty("position");
+    if (!position) {
+        position = {type:"position"};
+        entity.addProperty(position);
+    }
     var sizes = this.config.size;
+    position.coords = position.coords || [];
 
     position.coords[0] = Math.floor(Math.random() * (sizes[0].max - sizes[0].min + 1)) + sizes[0].min;
     position.coords[1] = Math.floor(Math.random() * (sizes[1].max - sizes[1].min + 1)) + sizes[1].min;

@@ -38,7 +38,7 @@ class CleanRequests {
   // Called when the rule has been removed from the world. Use to clean up
   //   any resources used by the rule.
   deactivate(){
-    
+
   }
 
   // Called when a new entity is added to the world.
@@ -62,3 +62,5 @@ class CleanRequests {
   }
 
 }
+
+module.exports = CleanRequests;

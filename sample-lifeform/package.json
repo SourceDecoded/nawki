@@ -6,5 +6,9 @@
   "README": "README.md",
   "dependencies": {
     "socket.io-client": "^1.4.8"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "node": true
   }
 }

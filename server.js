@@ -16,7 +16,7 @@ nawki.addNetworkConnection(socketIOConnection);
 // web stuff
 app.use(express.static('web'));
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8088;
 http.listen(port, function(){
   console.log("nawki is awake on " + port);
 });

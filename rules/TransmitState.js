@@ -54,12 +54,13 @@ class TransmitState {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    var activeEntities = this.world.entities.filter(function(e){
+    var activeEntities = this._world.entities.filter(function(e){
       return typeof e.transmitStateAsync === "function";
     });
 
     return activeEntities.reduce((promise, entity) => {
       var transmissableState = {};
+      // filter the
       Object.keys(entity.properties).forEach(function(key){
         if (entity.properties[key].length > 1) {
           var transmissableSubProperties = entity.properties[key].filter(function(property){
@@ -74,8 +75,12 @@ class TransmitState {
           }
         }
       });
-      return promise.then((entity) => {entity.transmitStateAsync(transmissableState);});
+      return promise.then(() => {
+        entity.transmitStateAsync(transmissableState);
+      });
     }, Promise.resolve(undefined));
   }
 
 }
+
+module.exports = TransmitState;

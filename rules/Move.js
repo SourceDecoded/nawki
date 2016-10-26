@@ -8,11 +8,7 @@ class Move {
     config = config || {};
     var self = this;
 
-    this.config = {
-      "allow-overreach": true,
-      "momentum": true,
-      "friction": 2
-    };
+    this.config = {};
 
     Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
@@ -43,6 +39,20 @@ class Move {
   }
 
   updateAsync() {
+    this._world.entities.forEach(function(entity){
+      entity.getProperties("request").filter((req) => {
+        return req.move && req.move.coords && (typeof req.move.coords.length === "number");
+      }).forEach((req) => {
+        var position = entity.getProperty("position");
+        if (position) {
+          var newPos = [];
+          for (var i = 0; i < position.coords.length; i++) {
+            position.coords[i] += req.move.coords[i];
+          }
+        }
+      });
+
+    });
     return Promise.resolve(undefined);
   }
 
