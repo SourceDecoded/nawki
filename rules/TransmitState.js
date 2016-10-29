@@ -60,19 +60,16 @@ class TransmitState {
 
     return activeEntities.reduce((promise, entity) => {
       var transmissableState = {};
-      // filter the
       Object.keys(entity.properties).forEach(function(key){
-        if (entity.properties[key].length > 1) {
-          var transmissableSubProperties = entity.properties[key].filter(function(property){
-            return property.transmit === true; // no truthy tricks!
+        if (entity.properties[key].transmit) {
+          var stateInfo = {};
+          Object.keys(entity.properties[key]).forEach((propKey) => {
+            // The "transmit" key is a given, no need to send it down the wire
+            if (propKey !== "transmit") {
+              stateInfo[propKey] = entity.properties[key][propKey];
+            }
           });
-          if (transmissableSubProperties.length > 0) {
-            transmissableState[key] = transmissableSubProperties;
-          }
-        } else {
-          if (entity.properties[key][0] && entity.properties[key][0].transmit === true) {
-            transmissableState[key] = entity.properties[key][0];
-          }
+          transmissableState[key] = stateInfo;
         }
       });
       return promise.then(() => {

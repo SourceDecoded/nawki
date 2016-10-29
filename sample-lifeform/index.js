@@ -1,5 +1,6 @@
 const socket = require('socket.io-client')('http://localhost:8088');
 const EOL = require('os').EOL;
+const readline = require('readline');
 
 socket.on('connect', function(){
   console.log("Connected.");
@@ -14,8 +15,19 @@ socket.on('describe', function(data){
 });
 
 socket.on('state', function(data){
-  print(data);
+  state = data;
 });
+
+var state = {};
+var printState = function(){
+  var lines = [];
+  lines.push("******************");
+  Object.keys(state).forEach(function(key){
+    lines.push(key + ":" + JSON.stringify(state[key]));
+  });
+  lines.push("******************");
+  process.stdout.write(lines.join(EOL) + EOL);
+};
 
 var print = function(txt){
   console.log(txt);
@@ -28,6 +40,16 @@ var commands = {
   "describe":function(){
     socket.emit("describe");
   },
+  "state":function(){
+    printState();
+  },
+  "move":function(command){
+    var parts = command.split(" ");
+    var packet = {move:{coords:[]}};
+    packet.move.coords[0] = parseInt(parts[1], 10);
+    packet.move.coords[1] = parseInt(parts[2], 10);
+    socket.emit("update", packet);
+  },
   "help":function(){
     print(Object.keys(commands).join(EOL));
   }
@@ -36,7 +58,9 @@ var commands = {
 var handleCommand = function(cmd){
   cmd = cmd.replace("\n", "").replace("\r", "");
   var cmdName = cmd.split(" ")[0];
-  commands[cmdName](cmd);
+  if (commands.hasOwnProperty(cmdName)) {
+    commands[cmdName](cmd);
+  }
 };
 
 process.stdin.setEncoding('utf8');

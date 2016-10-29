@@ -1,11 +1,32 @@
-{
-  "Move":{},
-  "FiniteWorld":{
-    "size":[
-      {"min":-10000,"max":10000},
-      {"min":-10000,"max":10000}
-    ]
-  },
-  "CleanRequests":{},
-  "TransmitState":{}
-}
+{"rules":[
+  {
+    "rule":"Move"
+  }, {
+    "rule":"Speed",
+    "config":{
+      "dimensions":2,
+      "limits":[[-10, 10], [-10, 10]]
+    }
+  }, {
+    "rule":"Gravity",
+    "config":{
+      "dimension":0,
+      "factor":0.1
+    }
+  }, {
+    "rule":"Friction",
+    "config":{
+      "loss": 0.01
+    }
+  }, {
+    "rule":"FiniteWorld",
+    "config": {
+      "size": [
+        {"min":-10000,"max":10000},
+        {"min":-10000,"max":10000}
+      ]
+    }
+  }, {
+    "rule":"TransmitState"
+  }
+]}

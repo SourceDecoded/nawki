@@ -1,14 +1,13 @@
 'use strict';
-class FiniteWorld {
+class Gravity {
+
   constructor(config){
     this._world = null;
     this._entities = [];
     // default config values
     this.config = {
-      "size": [
-        {"min":-10000, "max":10000},
-        {"min":-10000, "max":10000}
-      ]
+      "dimension":0,
+      "factor":1
     };
 
     // merge provided config values with defaults
@@ -22,11 +21,11 @@ class FiniteWorld {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"FiniteWorld",
+      "name":"Gravity",
       "version":"0.0.1",
-      "overview":"A 2d world of limited size. Assigns a random position to each new entity. Enforces positions in bounds.",
-      "reads":"position.coords[0], position.coords[1]",
-      "mutates":"position.coords[0], position.coords[1]",
+      "overview":"Simple single-dimension acceleration",
+      "reads":"speed.coords[x]",
+      "mutates":"speed.coords[x]",
       "adds":"",
       "config":this.config
     };
@@ -46,12 +45,7 @@ class FiniteWorld {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    var position = {coords:[]};
-    var sizes = this.config.size;
-    position.coords[0] = Math.floor(Math.random() * (sizes[0].max - sizes[0].min + 1)) + sizes[0].min;
-    position.coords[1] = Math.floor(Math.random() * (sizes[1].max - sizes[1].min + 1)) + sizes[1].min;
-    position.transmit = true;
-    entity.setProperty("position", position);
+
   }
 
   // Called when an entity is removed from the world.
@@ -64,20 +58,12 @@ class FiniteWorld {
   //   its processing.
   updateAsync(){
     this._world.entities.forEach((entity) => {
-      var position = entity.getProperty("position");
-      var coords = position.coords;
-      for (var i = 0; i < coords.length; i++) {
-        var size = this.config.size[i];
-        if (coords[i] < size.min) {
-          coords[i] = size.min;
-        }
-        if (coords[i] > size.max) {
-          coords[i] = size.max;
-        }
-      }
+      var speed = entity.getProperty("speed");
+      speed.coords[this.config.dimension] += this.config.factor;
     });
     return Promise.resolve(undefined);
   }
+
 }
 
-module.exports = FiniteWorld;
+module.exports = Gravity;

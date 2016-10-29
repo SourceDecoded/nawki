@@ -23,8 +23,8 @@ class Move {
       "name":"Move",
       "version":"0.0.1",
       "overview":"Allows entities to move around in the world by applying force.",
-      "reads":"position.coords[0], position.coords[1], health.energy, request.move.coords[0], request.move.coords[1]",
-      "mutates":"position.coords[0], position.coords[1], health.energy",
+      "reads":"speed.coords[0], speed.coords[1], move.coords[0], move.coords[1]",
+      "mutates":"speed.coords[0], speed.coords[1]",
       "config":this.config
     };
   }
@@ -39,19 +39,15 @@ class Move {
   }
 
   updateAsync() {
-    this._world.entities.forEach(function(entity){
-      entity.getProperties("request").filter((req) => {
-        return req.move && req.move.coords && (typeof req.move.coords.length === "number");
-      }).forEach((req) => {
-        var position = entity.getProperty("position");
-        if (position) {
-          var newPos = [];
-          for (var i = 0; i < position.coords.length; i++) {
-            position.coords[i] += req.move.coords[i];
-          }
+    this._world.entities.forEach((entity) => {
+      var move = entity.getProperty("move");
+      if (move && Array.isArray(move.coords)) {
+        var speed = entity.getProperty("speed");
+        for(var i = 0; i < move.coords.length; i++) {
+          speed.coords[i] += move.coords[i];
         }
-      });
-
+        move.coords = [];
+      }
     });
     return Promise.resolve(undefined);
   }
