@@ -19,3 +19,15 @@ A Nawki world does nothing by itself. All of its properties and behaviors are de
 Two special rules will likely be part of any world, and are probably the last rules applied:
  * CleanRequests empties out each entity's request properties, otherwise the requests would be processed on the next tick.
  * TransmitState tells the entities to communicate their current state back to their connected brains.
+
+## the sample entity
+Start Nawki, open a new terminal, navigate to sample-lifeform in the repo. Start the sample:
+```
+node index.js
+```
+When you see "Connected", it's talking to Nawki. Type "spawn" to spawn in the world. Then type "state" to see your organism's current state.
+Try typing:
+```
+move -10 10
+```
+To give your organism a "push" up and to the right. Type "state" repeatedly to see the gravity and friction rules at work.
