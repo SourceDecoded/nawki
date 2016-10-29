@@ -1,20 +1,16 @@
 'use strict';
-class Life {
-  // Determines what counts as "alive".
+class Watcher {
 
   constructor(config){
     this._world = null;
-    this._entities = null;
+    this._entities = [];
     // default config values
-    this.config = {
-      "min-energy": 0,
-      "start-energy": 100
-    };
+    this.config = {};
 
     // merge provided config values with defaults
     Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
-        this._config[key] = config[key];
+        this.config[key] = config[key];
       }
     });
   }
@@ -22,9 +18,9 @@ class Life {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"Life",
+      "name":"Watcher",
       "version":"0.0.1",
-      "overview":"Decides what counts as 'alive'",
+      "overview":"Send world state to registered watchers",
       "reads":"",
       "mutates":"",
       "adds":"",
@@ -46,14 +42,11 @@ class Life {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    if (entity.hasProperty("spawn")) {
-      entity.setProperty("enerty", this.config['start-energy']);
-      entity.setProperty("alive", true);
-      entity.removeProperty("spawn");
-    }
+
   }
 
   // Called when an entity is removed from the world.
+  // entity.remove() has been called by this point
   entityRemoved(entity){
 
   }
@@ -61,15 +54,22 @@ class Life {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach((entity) => {
-      if (entity.getProperty("energy") < this.config['min-energy']) {
-        entity.setProperty("dead", true);
-        entity.removeProperty("alive");
-      }
+    var toTransmit = this._world.entities.filter((entity) => {
+      return entity.hasProperty("transmit");
+    }).map((entity) => {
+      return entity.getProperty("transmit");
     });
-    return Promise.resolve(undefined);
+
+    return this._world.entities.filter((entity) => {
+      return entity.hasProperty("watch");
+    }).reduce((promise, entity) => {
+      promise.then(() => {
+        entity.TransmitStateAsync(toTransmit);
+      });
+    }, Promise.resolve(undefined));
+
   }
 
 }
 
-module.exports = Life;
+module.exports = Watcher;

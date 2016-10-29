@@ -40,13 +40,15 @@ class Move {
 
   updateAsync() {
     this._world.entities.forEach((entity) => {
-      var move = entity.getProperty("move");
-      if (move && Array.isArray(move.coords)) {
-        var speed = entity.getProperty("speed");
-        for(var i = 0; i < move.coords.length; i++) {
-          speed.coords[i] += move.coords[i];
+      if (entity.getProperty("alive")){
+        var move = entity.getProperty("move");
+        if (move && Array.isArray(move.coords)) {
+          var speed = entity.getProperty("speed");
+          for(var i = 0; i < move.coords.length; i++) {
+            speed.coords[i] += move.coords[i];
+          }
+          move.coords = [];
         }
-        move.coords = [];
       }
     });
     return Promise.resolve(undefined);

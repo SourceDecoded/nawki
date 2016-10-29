@@ -54,26 +54,13 @@ class TransmitState {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    var activeEntities = this._world.entities.filter(function(e){
+    var toTransmit = this._world.entities.filter(function(e){
       return typeof e.transmitStateAsync === "function";
     });
 
-    return activeEntities.reduce((promise, entity) => {
-      var transmissableState = {};
-      Object.keys(entity.properties).forEach(function(key){
-        if (entity.properties[key].transmit) {
-          var stateInfo = {};
-          Object.keys(entity.properties[key]).forEach((propKey) => {
-            // The "transmit" key is a given, no need to send it down the wire
-            if (propKey !== "transmit") {
-              stateInfo[propKey] = entity.properties[key][propKey];
-            }
-          });
-          transmissableState[key] = stateInfo;
-        }
-      });
+    return toTransmit.reduce((promise, entity) => {
       return promise.then(() => {
-        entity.transmitStateAsync(transmissableState);
+        entity.transmitStateAsync(entity.getProperty("transmit"));
       });
     }, Promise.resolve(undefined));
   }

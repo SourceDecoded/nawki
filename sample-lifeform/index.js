@@ -37,6 +37,9 @@ var commands = {
   "spawn":function(){
     socket.emit("spawn");
   },
+  "watch": function(){
+    socket.emit("watch");
+  },
   "describe":function(){
     socket.emit("describe");
   },

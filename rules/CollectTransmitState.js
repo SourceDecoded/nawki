@@ -1,5 +1,5 @@
 'use strict';
-class CleanRequests {
+class CollectTransmitState {
   // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
@@ -19,12 +19,12 @@ class CleanRequests {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"CleanRequests",
+      "name":"CollectTransmitState",
       "version":"0.0.1",
-      "overview":"Cleans all entity requests.",
-      "reads":{},
-      "mutates":{},
-      "adds":{},
+      "overview":"Collect ActiveEntity properties which will be transmitted to them",
+      "reads":"",
+      "mutates":"",
+      "adds":"",
       "config":this.config
     };
   }
@@ -43,7 +43,7 @@ class CleanRequests {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    this._entities.push(entity);
+
   }
 
   // Called when an entity is removed from the world.
@@ -55,12 +55,26 @@ class CleanRequests {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach(function(e){
-      e.properties.request = [];
+    this._world.entities.forEach((entity) => {
+      var transmissableState = {};
+      Object.keys(entity.properties).forEach(function(key){
+        if (entity.properties[key].transmit) {
+          var stateInfo = {};
+          Object.keys(entity.properties[key]).forEach((propKey) => {
+            // The "transmit" key is a given, no need to send it down the wire
+            if (propKey !== "transmit") {
+              stateInfo[propKey] = entity.properties[key][propKey];
+            }
+          });
+          transmissableState[key] = stateInfo;
+        }
+      });
+      entity.setProperty("transmit", transmissableState);
     });
+
     return Promise.resolve(undefined);
   }
 
 }
 
-module.exports = CleanRequests;
+module.exports = CollectTransmitState;

@@ -1,6 +1,5 @@
 'use strict';
 class Speed {
-  // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
     this._world = null;
