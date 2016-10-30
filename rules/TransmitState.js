@@ -55,7 +55,7 @@ class TransmitState {
   //   its processing.
   updateAsync(){
     var toTransmit = this._world.entities.filter(function(e){
-      return typeof e.transmitStateAsync === "function";
+      return typeof e.transmitStateAsync === "function" && (!e.hasProperty("watch"));
     });
 
     return toTransmit.reduce((promise, entity) => {

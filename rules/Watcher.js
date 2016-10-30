@@ -64,7 +64,7 @@ class Watcher {
       return entity.hasProperty("watch");
     }).reduce((promise, entity) => {
       promise.then(() => {
-        entity.TransmitStateAsync(toTransmit);
+        entity.transmitStateAsync({entities:toTransmit});
       });
     }, Promise.resolve(undefined));
 
