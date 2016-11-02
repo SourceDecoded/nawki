@@ -45,22 +45,26 @@ class Speed {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    var coords = [];
-    for(var i = 0; i < this.config.dimensions; i++) {
-      coords[i] = 0;
+    if (entity.getProperty("physics")) {
+      var coords = [];
+      for(var i = 0; i < this.config.dimensions; i++) {
+        coords[i] = 0;
+      }
+      entity.setProperty("speed", {coords:coords, transmit:true});
+      this._entities.push(entity);
     }
-    entity.setProperty("speed", {coords:coords, transmit:true});
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   updateAsync(){
-    this._world.entities.forEach((entity) => {
-
+    this._entities.forEach((entity) => {
       var limits = this.config.limits;
       var speed = entity.getProperty("speed");
       var position = entity.getProperty("position");

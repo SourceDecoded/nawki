@@ -45,19 +45,23 @@ class Friction {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-
+    if (entity.getProperty("physics")) {
+      this._entities.push(entity);
+    }
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach((entity) => {
+    this._entities.forEach((entity) => {
       var speed = entity.getProperty("speed");
       var loss = this.config.loss;
       for (var i = 0; i < speed.coords.length; i++) {

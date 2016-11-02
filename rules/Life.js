@@ -4,7 +4,7 @@ class Life {
 
   constructor(config){
     this._world = null;
-    this._entities = null;
+    this._entities = [];
     // default config values
     this.config = {
       "min-energy": 0,
@@ -47,15 +47,18 @@ class Life {
   // Called when a new entity is added to the world.
   entityAdded(entity){
     if (entity.hasProperty("spawn")) {
-      entity.setProperty("enerty", this.config['start-energy']);
+      entity.setProperty("energy", this.config['start-energy']);
       entity.setProperty("alive", true);
       entity.removeProperty("spawn");
+      this._entities.push(entity);
     }
   }
 
   // Called when an entity is removed from the world.
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of

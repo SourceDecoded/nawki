@@ -69,7 +69,11 @@ class CollectTransmitState {
           transmissableState[key] = stateInfo;
         }
       });
-      entity.setProperty("transmit", transmissableState);
+      if (Object.keys(transmissableState).length === 0) {
+        entity.removeProperty("transmit");
+      } else {
+        entity.setProperty("transmit", transmissableState);
+      }
     });
 
     return Promise.resolve(undefined);

@@ -7,7 +7,7 @@ class Move {
   constructor(config) {
     config = config || {};
     var self = this;
-
+    this._entities = [];
     this.config = {};
 
     Object.keys(this.config).forEach((key) => {
@@ -39,7 +39,7 @@ class Move {
   }
 
   updateAsync() {
-    this._world.entities.forEach((entity) => {
+    this._entities.forEach((entity) => {
       if (entity.getProperty("alive")){
         var move = entity.getProperty("move");
         if (move && Array.isArray(move.coords)) {
@@ -55,11 +55,15 @@ class Move {
   }
 
   entityAdded(entity) {
-
+    if (entity.getProperty("physics")) {
+      this._entities.push(entity);
+    }
   }
 
-  entityRemoved(entity) {
-
+  entityRemoved(entity){
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
 }

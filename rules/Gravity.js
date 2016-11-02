@@ -6,8 +6,8 @@ class Gravity {
     this._entities = [];
     // default config values
     this.config = {
-      "dimension":0,
-      "factor":1
+      "dimension": 0,
+      "factor": 0.1
     };
 
     // merge provided config values with defaults
@@ -45,21 +45,27 @@ class Gravity {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-
+    if (entity.getProperty("physics")) {
+      entity.setProperty("gravity", {factor:this.config.factor});
+      this._entities.push(entity);
+    }
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach((entity) => {
+    this._entities.forEach((entity) => {
       var speed = entity.getProperty("speed");
-      speed.coords[this.config.dimension] += this.config.factor;
+      var factor = entity.getProperty("gravity").factor;
+      speed.coords[this.config.dimension] += factor;
     });
     return Promise.resolve(undefined);
   }

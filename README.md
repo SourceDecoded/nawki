@@ -5,7 +5,7 @@ It's life, Jim, but not as we know it!
 clone the repo, then run:
 ```
 npm install
-npm start
+node server
 ```
 
 ## the world

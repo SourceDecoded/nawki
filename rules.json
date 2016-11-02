@@ -12,12 +12,6 @@
       "limits":[[-10, 10], [-10, 10]]
     }
   }, {
-    "rule":"Gravity",
-    "config":{
-      "dimension":0,
-      "factor":0.1
-    }
-  }, {
     "rule":"Friction",
     "config":{
       "loss": 0.01

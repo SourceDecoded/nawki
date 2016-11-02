@@ -46,24 +46,29 @@ class FiniteWorld {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    var position = {coords:[]};
-    var sizes = this.config.size;
-    position.coords[0] = Math.floor(Math.random() * (sizes[0].max - sizes[0].min + 1)) + sizes[0].min;
-    position.coords[1] = Math.floor(Math.random() * (sizes[1].max - sizes[1].min + 1)) + sizes[1].min;
-    position.transmit = true;
-    entity.setProperty("position", position);
+    if (entity.getProperty("physics")) {
+      this._entities.push(entity);
+      var position = {coords:[]};
+      var sizes = this.config.size;
+      position.coords[0] = Math.floor(Math.random() * (sizes[0].max - sizes[0].min + 1)) + sizes[0].min;
+      position.coords[1] = Math.floor(Math.random() * (sizes[1].max - sizes[1].min + 1)) + sizes[1].min;
+      position.transmit = true;
+      entity.setProperty("position", position);
+    }
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach((entity) => {
+    this._entities.forEach((entity) => {
       var position = entity.getProperty("position");
       var coords = position.coords;
       for (var i = 0; i < coords.length; i++) {
