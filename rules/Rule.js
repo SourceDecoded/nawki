@@ -54,6 +54,12 @@ class Rule {
     }
   }
 
+  // This entity has gone braindead. Its brain disconnected or is otherwise
+  // now just an inactive entity
+  entityInactive(entity){
+
+  }
+
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){

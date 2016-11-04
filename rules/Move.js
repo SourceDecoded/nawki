@@ -66,6 +66,10 @@ class Move {
     }
   }
 
+  entityInactive(entity){
+
+  }
+
 }
 
 module.exports = Move;

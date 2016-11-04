@@ -55,6 +55,10 @@ class TransmitState {
     }
   }
 
+  entityInactive(entity){
+    this.entityRemoved(entity);
+  }
+
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){

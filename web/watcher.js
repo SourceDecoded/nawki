@@ -4,13 +4,27 @@ var Watcher = function(socket, canvas){
   var worldHeight = 0;
   var worldXOffset = 0;
   var worldYOffset = 0;
+  var colors = {};
+
+  var getColor = function(eid){
+    var color = colors[eid];
+    if (!color) {
+      var a = [];
+      for (var i = 0; i < 3; i++) {
+        a[i] = Math.floor(Math.random()*255);
+      }
+      color = "rgb("+ a.join(',') +")";
+      colors[eid] = color;
+    }
+    return color;
+  };
 
   socket.on("state", (data) => {
     if (data) {
       context.fillStyle = "rgb(255,255,255)";
       context.fillRect(0,0,canvas.width,canvas.height);
       data.entities.forEach((entity) => {
-        context.fillStyle = "rgb(0,0,156)";
+        context.fillStyle = getColor(entity.meta.id);
         context.beginPath();
         var scaledPositionX = ((entity.position.coords[0] / worldWidth)  * canvas.width) + worldXOffset;
         var scaledPositionY = ((entity.position.coords[1] / worldHeight) * canvas.height) + worldYOffset;

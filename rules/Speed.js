@@ -63,6 +63,10 @@ class Speed {
     }
   }
 
+  entityInactive(entity){
+    
+  }
+
   updateAsync(){
     this._entities.forEach((entity) => {
       var limits = this.config.limits;

@@ -52,6 +52,10 @@ class PublicState {
 
   }
 
+  entityInactive(entity){
+
+  }
+
   updateAsync(){
     this._world.entities.forEach((entity) => {
       var publicState = {};
