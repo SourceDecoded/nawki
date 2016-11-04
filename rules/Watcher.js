@@ -42,28 +42,32 @@ class Watcher {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-
+    if (entity.getProperty("watch")) {
+      this._entities.push(entity);
+    }
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
     var toTransmit = this._world.entities.filter((entity) => {
-      return entity.hasProperty("transmit");
+      return entity.hasProperty("public");
     }).map((entity) => {
-      return entity.getProperty("transmit");
+      return entity.getProperty("public");
     });
 
-    return this._world.entities.filter((entity) => {
+    return this._entities.filter((entity) => {
       return entity.hasProperty("watch");
     }).reduce((promise, entity) => {
-      promise.then(() => {
+      return promise.then(() => {
         entity.transmitStateAsync({entities:toTransmit});
       });
     }, Promise.resolve(undefined));

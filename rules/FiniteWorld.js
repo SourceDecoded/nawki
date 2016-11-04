@@ -52,7 +52,7 @@ class FiniteWorld {
       var sizes = this.config.size;
       position.coords[0] = Math.floor(Math.random() * (sizes[0].max - sizes[0].min + 1)) + sizes[0].min;
       position.coords[1] = Math.floor(Math.random() * (sizes[1].max - sizes[1].min + 1)) + sizes[1].min;
-      position.transmit = true;
+      position.public = true;
       entity.setProperty("position", position);
     }
   }

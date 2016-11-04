@@ -50,7 +50,7 @@ class Speed {
       for(var i = 0; i < this.config.dimensions; i++) {
         coords[i] = 0;
       }
-      entity.setProperty("speed", {coords:coords, transmit:true});
+      entity.setProperty("speed", {coords:coords, public:true});
       this._entities.push(entity);
     }
   }

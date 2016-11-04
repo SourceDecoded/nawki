@@ -25,7 +25,7 @@
       ]
     }
   }, {
-    "rule":"CollectTransmitState"
+    "rule":"PublicState"
   }, {
     "rule":"Watcher"
   }, {

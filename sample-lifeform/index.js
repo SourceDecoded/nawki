@@ -3,7 +3,7 @@ const EOL = require('os').EOL;
 const readline = require('readline');
 
 socket.on('connect', function(){
-  console.log("Connected.");
+  console.log("Connected. ID: " + socket.id);
 });
 
 socket.on('disconnect', function(){

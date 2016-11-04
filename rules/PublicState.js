@@ -1,5 +1,5 @@
 'use strict';
-class CollectTransmitState {
+class PublicState {
   // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
@@ -19,9 +19,9 @@ class CollectTransmitState {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"CollectTransmitState",
+      "name":"PublicState",
       "version":"0.0.1",
-      "overview":"Collect ActiveEntity properties which will be transmitted to them",
+      "overview":"Collect public state properties for convenience of other rules",
       "reads":"",
       "mutates":"",
       "adds":"",
@@ -52,27 +52,25 @@ class CollectTransmitState {
 
   }
 
-  // Called on every game tick. This is where the Rule will do most of
-  //   its processing.
   updateAsync(){
     this._world.entities.forEach((entity) => {
-      var transmissableState = {};
+      var publicState = {};
       Object.keys(entity.properties).forEach(function(key){
-        if (entity.properties[key].transmit) {
+        if (entity.properties[key].public) {
           var stateInfo = {};
           Object.keys(entity.properties[key]).forEach((propKey) => {
-            // The "transmit" key is a given, no need to send it down the wire
-            if (propKey !== "transmit") {
+            // The "public" key is a given, no need to send it down the wire
+            if (propKey !== "public") {
               stateInfo[propKey] = entity.properties[key][propKey];
             }
           });
-          transmissableState[key] = stateInfo;
+          publicState[key] = stateInfo;
         }
       });
-      if (Object.keys(transmissableState).length === 0) {
-        entity.removeProperty("transmit");
+      if (Object.keys(publicState).length === 0) {
+        entity.removeProperty("public");
       } else {
-        entity.setProperty("transmit", transmissableState);
+        entity.setProperty("public", publicState);
       }
     });
 
@@ -81,4 +79,4 @@ class CollectTransmitState {
 
 }
 
-module.exports = CollectTransmitState;
+module.exports = PublicState;

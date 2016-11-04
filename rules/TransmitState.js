@@ -42,25 +42,25 @@ class TransmitState {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-
+    if (entity.getProperty("sentient")) {
+      this._entities.push(entity);
+    }
   }
 
   // Called when an entity is removed from the world.
   // entity.remove() has been called by this point
   entityRemoved(entity){
-
+    if (this._entities.indexOf(entity) > -1) {
+      this._entities.splice(this._entities.indexOf(entity), 1);
+    }
   }
 
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    var toTransmit = this._world.entities.filter(function(e){
-      return typeof e.hasProperty('transmit');
-    });
-
-    return toTransmit.reduce((promise, entity) => {
+    this._entities.reduce((promise, entity) => {
       return promise.then(() => {
-        entity.transmitStateAsync(entity.getProperty("transmit"));
+        entity.transmitStateAsync(entity.getProperty("public"));
       });
     }, Promise.resolve(undefined));
   }
