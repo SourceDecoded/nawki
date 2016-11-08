@@ -1,8 +1,11 @@
 {"rules":[
   {
     "rule":"Life",
-    "start-energy":100,
-    "min-energy":0
+    "config": {
+      "start-energy":100,
+      "min-energy":10
+    }
+
   }, {
     "rule":"Move"
   }, {
@@ -10,6 +13,12 @@
     "config":{
       "dimensions":2,
       "limits":[[-10, 10], [-10, 10]]
+    }
+  }, {
+    "rule":"Gravity",
+    "config":{
+      "dimension":1,
+      "factor":0.003
     }
   }, {
     "rule":"Friction",

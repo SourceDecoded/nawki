@@ -14,7 +14,7 @@ class Life {
     // merge provided config values with defaults
     Object.keys(this.config).forEach((key) => {
       if (config.hasOwnProperty(key)) {
-        this._config[key] = config[key];
+        this.config[key] = config[key];
       }
     });
   }
@@ -47,8 +47,7 @@ class Life {
   // Called when a new entity is added to the world.
   entityAdded(entity){
     if (entity.hasProperty("spawn")) {
-      entity.setProperty("energy", this.config['start-energy']);
-      entity.setProperty("alive", true);
+      entity.setProperty("life", {"public":true, "energy":this.config['start-energy'], "alive":true});
       entity.removeProperty("spawn");
       this._entities.push(entity);
     }
@@ -64,10 +63,9 @@ class Life {
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._world.entities.forEach((entity) => {
-      if (entity.getProperty("energy") < this.config['min-energy']) {
-        entity.setProperty("dead", true);
-        entity.removeProperty("alive");
+    this._entities.forEach((entity) => {
+      if (entity.getProperty("life").energy < this.config['min-energy']) {
+        entity.getProperty("life").alive = false;
       }
     });
     return Promise.resolve(undefined);

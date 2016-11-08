@@ -2,8 +2,8 @@ var Watcher = function(socket, canvas){
   var context = canvas.getContext("2d");
   var worldWidth = 0;
   var worldHeight = 0;
-  var worldXOffset = 0;
-  var worldYOffset = 0;
+  var worldXOffsetPercentage = 0;
+  var worldYOffsetPercentage = 0;
   var colors = {};
 
   var getColor = function(eid){
@@ -13,7 +13,8 @@ var Watcher = function(socket, canvas){
       for (var i = 0; i < 3; i++) {
         a[i] = Math.floor(Math.random()*255);
       }
-      color = "rgb("+ a.join(',') +")";
+      a.push(0.8);
+      color = "rgba("+ a.join(',') +")";
       colors[eid] = color;
     }
     return color;
@@ -26,9 +27,9 @@ var Watcher = function(socket, canvas){
       data.entities.forEach((entity) => {
         context.fillStyle = getColor(entity.meta.id);
         context.beginPath();
-        var scaledPositionX = ((entity.position.coords[0] / worldWidth)  * canvas.width) + worldXOffset;
-        var scaledPositionY = ((entity.position.coords[1] / worldHeight) * canvas.height) + worldYOffset;
-        context.arc(scaledPositionX, scaledPositionY, 10, 0, Math.PI*2, true);
+        var scaledPositionX = ((entity.position.coords[0] / worldWidth)  * canvas.width) + worldXOffsetPercentage * canvas.width;
+        var scaledPositionY = ((entity.position.coords[1] / worldHeight) * canvas.height) + worldYOffsetPercentage * canvas.height;
+        context.arc(scaledPositionX, scaledPositionY, (entity.life.energy / 2), 0, Math.PI*2, true);
         context.fill();
         context.closePath();
       });
@@ -37,7 +38,6 @@ var Watcher = function(socket, canvas){
 
   socket.on("describe", (data) => {
     console.log("Description recieved");
-    data = JSON.parse(data);
     // the size of the world should be found here:
     var worldConfig = data.filter((config) => { return config.name === "FiniteWorld";})[0];
     var worldXMin = worldConfig.config.size[0].min;
@@ -46,8 +46,8 @@ var Watcher = function(socket, canvas){
     var worldYMax = worldConfig.config.size[1].max;
     worldWidth = worldXMax - worldXMin;
     worldHeight = worldYMax - worldYMin;
-    worldXOffset = -1 * worldXMin;
-    worldYOffset = -1 * worldYMin;
+    worldXOffsetPercentage =  (-1 * worldXMin) / worldWidth;
+    worldYOffsetPercentage = (-1 * worldYMin) / worldHeight;
     socket.emit("watch");
   });
 

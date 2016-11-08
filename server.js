@@ -20,3 +20,6 @@ var port = process.env.PORT || 8088;
 http.listen(port, function(){
   console.log("nawki is awake on " + port);
 });
+
+// could be useful if running in a node console
+module.exports = {http:http, nawki:nawki};

@@ -1,13 +1,21 @@
 'use strict';
-class Gravity {
+
+var randomInRange = function(min, max){
+  return Math.random() * (max-min) + min;
+};
+
+class SpawnEnergy {
+  // This rule doesn't do anything but serve as a template for new rules.
 
   constructor(config){
     this._world = null;
     this._entities = [];
     // default config values
     this.config = {
-      "dimension": 0,
-      "factor": 0.1
+      "spawn-rate": 0.01,
+      "min-value": 0.5,
+      "max-value": 2,
+      "area": [[-200, 200], [-200, 200]]
     };
 
     // merge provided config values with defaults
@@ -21,11 +29,11 @@ class Gravity {
   // describe what this rule does with the world or entities
   describe(){
     return {
-      "name":"Gravity",
+      "name":"SpawnEnergy",
       "version":"0.0.1",
-      "overview":"Simple single-dimension acceleration",
-      "reads":"speed.coords[x]",
-      "mutates":"speed.coords[x]",
+      "overview":"Spawns energy in the world",
+      "reads":"",
+      "mutates":"",
       "adds":"",
       "config":this.config
     };
@@ -45,10 +53,7 @@ class Gravity {
 
   // Called when a new entity is added to the world.
   entityAdded(entity){
-    if (entity.getProperty("physics")) {
-      entity.setProperty("gravity", {factor:this.config.factor, dimension:this.config.dimension});
-      this._entities.push(entity);
-    }
+
   }
 
   // Called when an entity is removed from the world.
@@ -59,18 +64,28 @@ class Gravity {
     }
   }
 
+  // This entity has gone braindead. Its brain disconnected or is otherwise
+  // now just an inactive entity
+  entityInactive(entity){
+
+  }
+
   // Called on every game tick. This is where the Rule will do most of
   //   its processing.
   updateAsync(){
-    this._entities.forEach((entity) => {
-      var speed = entity.getProperty("speed");
-      var factor = entity.getProperty("gravity").factor;
-      var dimension = entity.getProperty("gravity").dimension;
-      speed.coords[dimension] += factor;
-    });
+    if (Math.random() <= this.config['spawn-rate']) {
+      var energyValue = randomInRange(this.config['min-value'], this.config['max-value']);
+      var e = new this._world.entityConstructors.Entity();
+      e.setProperty('edible', true);
+      e.setProperty('nutrients', {energy:energyValue, public: true});
+      var posX = randomInRange(this.config.area[0][0], this.config.area[0][1]);
+      var posY = randomInRange(this.config.area[1][0], this.config.area[1][1]);
+      e.setProperty('position', {coords:[posX, posY], public: true});
+      this._world.addEntity(e);
+    }
     return Promise.resolve(undefined);
   }
 
 }
 
-module.exports = Gravity;
+module.exports = SpawnEnergy;

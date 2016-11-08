@@ -40,12 +40,14 @@ class Move {
 
   updateAsync() {
     this._entities.forEach((entity) => {
-      if (entity.getProperty("alive")){
+      if (entity.getProperty("life").alive){
         var move = entity.getProperty("move");
+        var life = entity.getProperty("life");
         if (move && Array.isArray(move.coords)) {
           var speed = entity.getProperty("speed");
           for(var i = 0; i < move.coords.length; i++) {
             speed.coords[i] += move.coords[i];
+            life.energy -= Math.abs(move.coords[i]);
           }
           move.coords = [];
         }

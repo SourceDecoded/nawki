@@ -69,15 +69,17 @@ class FiniteWorld {
   //   its processing.
   updateAsync(){
     this._entities.forEach((entity) => {
-      var position = entity.getProperty("position");
-      var coords = position.coords;
-      for (var i = 0; i < coords.length; i++) {
+      var position = entity.getProperty("position").coords;
+      var speed = entity.getProperty("speed").coords;
+      for (var i = 0; i < position.length; i++) {
         var size = this.config.size[i];
-        if (coords[i] < size.min) {
-          coords[i] = size.min;
+        if (position[i] < size.min) {
+          position[i] = size.min;
+          speed[i] = 0;
         }
-        if (coords[i] > size.max) {
-          coords[i] = size.max;
+        if (position[i] > size.max) {
+          position[i] = size.max;
+          speed[i] = 0;
         }
       }
     });
