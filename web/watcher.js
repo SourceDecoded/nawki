@@ -20,18 +20,29 @@ var Watcher = function(socket, canvas){
     return color;
   };
 
+  var renderers = {
+    "lifeform": function(entity, context){
+      context.fillStyle = getColor(entity.meta.id);
+      context.beginPath();
+      var scaledPositionX = ((entity.position.coords[0] / worldWidth)  * canvas.width) + worldXOffsetPercentage * canvas.width;
+      var scaledPositionY = ((entity.position.coords[1] / worldHeight) * canvas.height) + worldYOffsetPercentage * canvas.height;
+      context.arc(scaledPositionX, scaledPositionY, (entity.life.energy / 2), 0, Math.PI*2, true);
+      context.fill();
+      context.closePath();
+    },
+    "nutrient": function(entity, context){
+
+    }
+  };
+
   socket.on("state", (data) => {
     if (data) {
       context.fillStyle = "rgb(255,255,255)";
       context.fillRect(0,0,canvas.width,canvas.height);
       data.entities.forEach((entity) => {
-        context.fillStyle = getColor(entity.meta.id);
-        context.beginPath();
-        var scaledPositionX = ((entity.position.coords[0] / worldWidth)  * canvas.width) + worldXOffsetPercentage * canvas.width;
-        var scaledPositionY = ((entity.position.coords[1] / worldHeight) * canvas.height) + worldYOffsetPercentage * canvas.height;
-        context.arc(scaledPositionX, scaledPositionY, (entity.life.energy / 2), 0, Math.PI*2, true);
-        context.fill();
-        context.closePath();
+        if (entity.meta && entity.meta.type && renderers.hasOwnProperty(entity.meta.type)){
+          renderers[entity.meta.type](entity, context);
+        }
       });
     }
   });

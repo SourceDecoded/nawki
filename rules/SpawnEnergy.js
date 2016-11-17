@@ -78,6 +78,7 @@ class SpawnEnergy {
       var e = new this._world.entityConstructors.Entity();
       e.setProperty('edible', true);
       e.setProperty('nutrients', {energy:energyValue, public: true});
+      e.setProperty('meta', {public: true, type:'nutrient'});
       var posX = randomInRange(this.config.area[0][0], this.config.area[0][1]);
       var posY = randomInRange(this.config.area[1][0], this.config.area[1][1]);
       e.setProperty('position', {coords:[posX, posY], public: true});
